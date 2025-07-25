@@ -1,0 +1,7 @@
+artifact_location: file:///C:/Users/steba/Desktop/Pepe/MlFlowDeploy/mlruns/523891030899281986
+creation_time: 1753401053888
+experiment_id: '523891030899281986'
+last_update_time: 1753459019959
+lifecycle_stage: deleted
+name: sp500_forecast
+tags: {}

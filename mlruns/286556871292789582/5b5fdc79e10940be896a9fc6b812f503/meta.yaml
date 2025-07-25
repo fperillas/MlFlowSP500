@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/286556871292789582/5b5fdc79e10940be896a9fc6b812f503/artifacts
+end_time: 1753457632384
+entry_point_name: ''
+experiment_id: '286556871292789582'
+lifecycle_stage: active
+run_id: 5b5fdc79e10940be896a9fc6b812f503
+run_name: merciful-moth-694
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753457628903
+status: 3
+tags: []
+user_id: steba

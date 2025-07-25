@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/110430061463581016/d43c7f415335421faf2603bfdb1af6c6/artifacts
+deleted_time: 1753459022360
+end_time: 1753415227594
+entry_point_name: ''
+experiment_id: '110430061463581016'
+lifecycle_stage: deleted
+run_id: d43c7f415335421faf2603bfdb1af6c6
+run_name: flawless-pig-287
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753415227531
+status: 4
+tags: []
+user_id: steba

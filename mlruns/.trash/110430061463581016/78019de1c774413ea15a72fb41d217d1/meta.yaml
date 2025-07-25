@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/110430061463581016/78019de1c774413ea15a72fb41d217d1/artifacts
+deleted_time: 1753459022360
+end_time: 1753415302630
+entry_point_name: ''
+experiment_id: '110430061463581016'
+lifecycle_stage: deleted
+run_id: 78019de1c774413ea15a72fb41d217d1
+run_name: awesome-gnu-459
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753415296691
+status: 3
+tags: []
+user_id: steba

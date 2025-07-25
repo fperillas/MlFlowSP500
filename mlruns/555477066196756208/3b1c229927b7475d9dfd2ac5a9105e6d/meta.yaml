@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/555477066196756208/3b1c229927b7475d9dfd2ac5a9105e6d/artifacts
+end_time: 1753457625097
+entry_point_name: ''
+experiment_id: '555477066196756208'
+lifecycle_stage: active
+run_id: 3b1c229927b7475d9dfd2ac5a9105e6d
+run_name: intrigued-fowl-286
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753457615803
+status: 3
+tags: []
+user_id: steba

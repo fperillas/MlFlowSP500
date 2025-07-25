@@ -15,7 +15,7 @@ def train_arimax_model():
     utilizando el segmento 'early' del dataset y registra los resultados en MLflow
     bajo el experimento 'sp500_ARIMAX'.
     """
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri("http://localhost:5000")
     mlflow.set_experiment("sp500_ARIMAX")
 
     data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'SP500.csv')

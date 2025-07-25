@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/758453172600072499/9f428a7d13f0405ebf5d3c598b9ce23d/artifacts
+end_time: 1753457674389
+entry_point_name: ''
+experiment_id: '758453172600072499'
+lifecycle_stage: active
+run_id: 9f428a7d13f0405ebf5d3c598b9ce23d
+run_name: rare-wren-28
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753457632423
+status: 3
+tags: []
+user_id: steba

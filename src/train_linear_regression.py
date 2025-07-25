@@ -16,7 +16,7 @@ def train_general_linear_regression_model():
     bajo el experimento 'sp500_Linear_Regression'.
     """
     # Configurar la URI de seguimiento de MLflow
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri("http://localhost:5000")
 
     # Establecer el nombre del experimento de MLflow
     mlflow.set_experiment("sp500_Linear_Regression")

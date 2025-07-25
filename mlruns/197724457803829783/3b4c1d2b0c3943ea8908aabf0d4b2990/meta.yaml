@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/197724457803829783/3b4c1d2b0c3943ea8908aabf0d4b2990/artifacts
+end_time: 1753457628869
+entry_point_name: ''
+experiment_id: '197724457803829783'
+lifecycle_stage: active
+run_id: 3b4c1d2b0c3943ea8908aabf0d4b2990
+run_name: mercurial-lark-322
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753457625137
+status: 3
+tags: []
+user_id: steba

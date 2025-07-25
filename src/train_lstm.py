@@ -25,7 +25,7 @@ def train_lstm_model():
     utilizando el segmento 'late' del dataset y registra los resultados en MLflow
     bajo el experimento 'sp500_LSTM'.
     """
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri("http://localhost:5000")
     mlflow.set_experiment("sp500_LSTM")
 
     data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'SP500.csv')
