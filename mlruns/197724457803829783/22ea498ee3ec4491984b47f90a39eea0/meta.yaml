@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/197724457803829783/22ea498ee3ec4491984b47f90a39eea0/artifacts
+end_time: 1753464213586
+entry_point_name: ''
+experiment_id: '197724457803829783'
+lifecycle_stage: active
+run_id: 22ea498ee3ec4491984b47f90a39eea0
+run_name: casual-bug-981
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753464209724
+status: 3
+tags: []
+user_id: steba

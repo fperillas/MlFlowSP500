@@ -1,0 +1,10 @@
+artifact_location: mlflow-artifacts:/197724457803829783/models/m-b34c1f0d923f4f118d898c546044aa13/artifacts
+creation_timestamp: 1753464210244
+experiment_id: '197724457803829783'
+last_updated_timestamp: 1753464213285
+model_id: m-b34c1f0d923f4f118d898c546044aa13
+model_type: ''
+name: model_arimax
+source_run_id: 22ea498ee3ec4491984b47f90a39eea0
+status: 2
+status_message: null

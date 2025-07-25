@@ -70,6 +70,9 @@ def train_lstm_model():
     X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
     X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
 
+    # Definir el nombre del modelo registrado
+    # Puedes elegir cualquier nombre significativo. Si ya existe, MLflow creará una nueva versión.
+    registered_model_name = "SP500_LSTM_Predictor" 
 
     with mlflow.start_run():
         print("Iniciando run de MLflow para LSTM (Segmento Late)...")
@@ -113,9 +116,13 @@ def train_lstm_model():
         mlflow.log_param("batch_size", 32)
         mlflow.log_metric("rmse", rmse)
         
-        # Registrar el modelo de Keras
-        mlflow.keras.log_model(model, artifact_path="model_lstm")
-        print("Modelo LSTM (Segmento Late) registrado en MLflow.")
+        # *** CAMBIO CLAVE AQUÍ: AÑADIR registered_model_name ***
+        mlflow.keras.log_model(
+            model, # <--- ¡Aquí está el cambio! Eliminamos 'keras_model='
+            artifact_path="model_lstm", # Puedes cambiar esto a 'name="model_lstm"' si quieres seguir la advertencia
+            registered_model_name=registered_model_name 
+        )
+        print(f"Modelo LSTM (Segmento Late) registrado como '{registered_model_name}' en MLflow.")
 
         # Generar y guardar la gráfica de Predicción vs Real
         fig, ax = plt.subplots(figsize=(12, 6))

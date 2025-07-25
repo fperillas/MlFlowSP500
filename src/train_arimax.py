@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import mlflow
-import mlflow.statsmodels
+import mlflow.statsmodels # Asegúrate de que esta librería esté instalada
 import os
 from src.utils import prepare_data_ts, get_segment_data # Importar funciones de utilidad
 
@@ -43,6 +43,10 @@ def train_arimax_model():
     y_test = test_data['SP500']
     exog_test = test_data[['SP500_lag1', 'SP500_lag2']]
 
+
+    # Definir el nombre del modelo registrado para ARIMAX
+    # Asegúrate de que sea un nombre diferente al del modelo LSTM si ambos se van a registrar
+    registered_model_name_arimax = "SP500_ARIMAX_Predictor" 
 
     with mlflow.start_run():
         print("Iniciando run de MLflow para ARIMAX (Segmento Early)...")
@@ -84,9 +88,13 @@ def train_arimax_model():
         mlflow.log_param("ma_order", order[2])
         mlflow.log_metric("rmse", rmse)
         
-        # Registrar el modelo de statsmodels (usando mlflow.statsmodels.log_model)
-        mlflow.statsmodels.log_model(model_fit, artifact_path="model_arimax")
-        print("Modelo ARIMAX (Segmento Early) registrado en MLflow.")
+        # *** CAMBIO CLAVE AQUÍ: AÑADIR registered_model_name ***
+        mlflow.statsmodels.log_model(
+            statsmodels_model=model_fit, 
+            artifact_path="model_arimax",
+            registered_model_name=registered_model_name_arimax # <--- ¡Este es el cambio!
+        )
+        print(f"Modelo ARIMAX (Segmento Early) registrado como '{registered_model_name_arimax}' en MLflow.")
 
         # Generar y guardar la gráfica de Predicción vs Real
         fig, ax = plt.subplots(figsize=(12, 6))
@@ -94,6 +102,8 @@ def train_arimax_model():
         ax.plot(y_test.index, y_test, label="Real (Prueba)", color='blue')
         ax.plot(y_pred.index, y_pred, label="Predicción (Prueba)", color='orange', linestyle='--')
         ax.set_title("Predicción vs Real (ARIMAX - Segmento Early)")
+        ax.set_xlabel("Fecha")
+        ax.set_ylabel("Valor S&P 500")
         ax.legend()
         plt.tight_layout()
 

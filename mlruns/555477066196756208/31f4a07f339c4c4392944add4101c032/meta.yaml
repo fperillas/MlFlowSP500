@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/555477066196756208/31f4a07f339c4c4392944add4101c032/artifacts
+end_time: 1753464209680
+entry_point_name: ''
+experiment_id: '555477066196756208'
+lifecycle_stage: active
+run_id: 31f4a07f339c4c4392944add4101c032
+run_name: nervous-cub-712
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753464205709
+status: 3
+tags: []
+user_id: steba

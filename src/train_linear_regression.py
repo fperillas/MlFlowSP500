@@ -39,6 +39,10 @@ def train_general_linear_regression_model():
     # Usamos random_state para reproducibilidad
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    # Definir el nombre del modelo registrado para Regresión Lineal
+    # Asegúrate de que sea un nombre único y descriptivo
+    registered_model_name_lr = "SP500_Linear_Regression_Predictor"
+
     # Iniciar un nuevo run de MLflow
     with mlflow.start_run():
         print("Iniciando run de MLflow para Linear Regression (General)...")
@@ -62,9 +66,13 @@ def train_general_linear_regression_model():
         mlflow.log_param("intercept", model.intercept_)
         mlflow.log_metric("rmse", rmse)
         
-        # Registrar el modelo de scikit-learn
-        mlflow.sklearn.log_model(model, artifact_path="model_linear_regression_general")
-        print("Modelo Linear Regression (General) registrado en MLflow.")
+        # *** CAMBIO CLAVE AQUÍ: AÑADIR registered_model_name ***
+        mlflow.sklearn.log_model(
+            sk_model=model, 
+            artifact_path="model_linear_regression_general",
+            registered_model_name=registered_model_name_lr # <--- ¡Este es el cambio!
+        )
+        print(f"Modelo Linear Regression (General) registrado como '{registered_model_name_lr}' en MLflow.")
 
         # Generar y guardar la gráfica de Predicción vs Real
         fig, ax = plt.subplots(figsize=(10, 4))

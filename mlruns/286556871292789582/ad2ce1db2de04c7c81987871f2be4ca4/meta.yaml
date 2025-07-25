@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/286556871292789582/ad2ce1db2de04c7c81987871f2be4ca4/artifacts
+end_time: 1753464637770
+entry_point_name: ''
+experiment_id: '286556871292789582'
+lifecycle_stage: active
+run_id: ad2ce1db2de04c7c81987871f2be4ca4
+run_name: aged-panda-260
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753464634090
+status: 3
+tags: []
+user_id: steba

@@ -42,6 +42,10 @@ def train_sarimax_model():
     y_test = test_data['SP500']
     exog_test = test_data[['SP500_lag1', 'SP500_lag2']]
 
+    # Definir el nombre del modelo registrado para SARIMAX
+    # Asegúrate de que sea un nombre único si vas a tener múltiples modelos registrados
+    registered_model_name_sarimax = "SP500_SARIMAX_Predictor" 
+
     with mlflow.start_run():
         print("Iniciando run de MLflow para SARIMAX (Segmento Middle)...")
 
@@ -81,9 +85,13 @@ def train_sarimax_model():
         mlflow.log_param("seasonal_period", seasonal_order[3])
         mlflow.log_metric("rmse", rmse)
         
-        # Registrar el modelo de statsmodels
-        mlflow.statsmodels.log_model(model_fit, artifact_path="model_sarimax")
-        print("Modelo SARIMAX (Segmento Middle) registrado en MLflow.")
+        # *** CAMBIO CLAVE AQUÍ: AÑADIR registered_model_name ***
+        mlflow.statsmodels.log_model(
+            statsmodels_model=model_fit, 
+            artifact_path="model_sarimax",
+            registered_model_name=registered_model_name_sarimax # <--- ¡Este es el cambio!
+        )
+        print(f"Modelo SARIMAX (Segmento Middle) registrado como '{registered_model_name_sarimax}' en MLflow.")
 
         # Generar y guardar la gráfica de Predicción vs Real
         fig, ax = plt.subplots(figsize=(12, 6))
@@ -91,6 +99,8 @@ def train_sarimax_model():
         ax.plot(y_test.index, y_test, label="Real (Prueba)", color='blue')
         ax.plot(y_pred.index, y_pred, label="Predicción (Prueba)", color='orange', linestyle='--')
         ax.set_title("Predicción vs Real (SARIMAX - Segmento Middle)")
+        ax.set_xlabel("Fecha")
+        ax.set_ylabel("Valor S&P 500")
         ax.legend()
         plt.tight_layout()
 

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/758453172600072499/4f8a12e100d74d51a0a94e50be5c5afc/artifacts
+end_time: 1753464672700
+entry_point_name: ''
+experiment_id: '758453172600072499'
+lifecycle_stage: active
+run_id: 4f8a12e100d74d51a0a94e50be5c5afc
+run_name: wistful-bird-281
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753464637804
+status: 3
+tags: []
+user_id: steba

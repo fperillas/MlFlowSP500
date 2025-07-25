@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/555477066196756208/f314af31cc064b8c8280ba5ff7405b94/artifacts
+end_time: 1753464630220
+entry_point_name: ''
+experiment_id: '555477066196756208'
+lifecycle_stage: active
+run_id: f314af31cc064b8c8280ba5ff7405b94
+run_name: calm-fowl-539
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753464626262
+status: 3
+tags: []
+user_id: steba

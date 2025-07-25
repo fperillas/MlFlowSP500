@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/758453172600072499/71d15cf4e65b45f9a63793bfc49668fd/artifacts
+end_time: 1753464245207
+entry_point_name: ''
+experiment_id: '758453172600072499'
+lifecycle_stage: active
+run_id: 71d15cf4e65b45f9a63793bfc49668fd
+run_name: able-horse-57
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753464217309
+status: 4
+tags: []
+user_id: steba
