@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/555477066196756208
+creation_time: 1753428137209
+experiment_id: '555477066196756208'
+last_update_time: 1753428137209
+lifecycle_stage: active
+name: sp500_Linear_Regression

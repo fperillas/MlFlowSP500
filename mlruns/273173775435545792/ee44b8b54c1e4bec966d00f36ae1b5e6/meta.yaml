@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/273173775435545792/ee44b8b54c1e4bec966d00f36ae1b5e6/artifacts
+end_time: 1753421778481
+entry_point_name: ''
+experiment_id: '273173775435545792'
+lifecycle_stage: active
+run_id: ee44b8b54c1e4bec966d00f36ae1b5e6
+run_name: carefree-asp-698
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753421775725
+status: 3
+tags: []
+user_id: steba

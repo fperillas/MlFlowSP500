@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/758453172600072499/75988bc9e3e44bfa80e1bbcb190bb0aa/artifacts
+end_time: 1753427915295
+entry_point_name: ''
+experiment_id: '758453172600072499'
+lifecycle_stage: active
+run_id: 75988bc9e3e44bfa80e1bbcb190bb0aa
+run_name: thoughtful-sow-737
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753427872231
+status: 3
+tags: []
+user_id: steba

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/197724457803829783/ab91dbc2df1b440e93faa780cb1a01af/artifacts
+end_time: 1753427868609
+entry_point_name: ''
+experiment_id: '197724457803829783'
+lifecycle_stage: active
+run_id: ab91dbc2df1b440e93faa780cb1a01af
+run_name: auspicious-grub-313
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753427863956
+status: 3
+tags: []
+user_id: steba

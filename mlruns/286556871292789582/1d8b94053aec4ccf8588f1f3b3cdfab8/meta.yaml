@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/286556871292789582/1d8b94053aec4ccf8588f1f3b3cdfab8/artifacts
+end_time: 1753427872171
+entry_point_name: ''
+experiment_id: '286556871292789582'
+lifecycle_stage: active
+run_id: 1d8b94053aec4ccf8588f1f3b3cdfab8
+run_name: learned-grouse-618
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753427868683
+status: 3
+tags: []
+user_id: steba

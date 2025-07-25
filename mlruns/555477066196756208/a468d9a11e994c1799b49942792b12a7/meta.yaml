@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/555477066196756208/a468d9a11e994c1799b49942792b12a7/artifacts
+end_time: 1753428141324
+entry_point_name: ''
+experiment_id: '555477066196756208'
+lifecycle_stage: active
+run_id: a468d9a11e994c1799b49942792b12a7
+run_name: enchanting-ray-465
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753428137539
+status: 3
+tags: []
+user_id: steba

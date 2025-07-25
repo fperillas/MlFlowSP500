@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/steba/Desktop/Pepe/MlFlowDeploy/notebooks/mlruns/202868265835876710/e5d0218d57d04c4bb1b3e30b0b64211a/artifacts
+end_time: 1753403995958
+entry_point_name: ''
+experiment_id: '202868265835876710'
+lifecycle_stage: active
+run_id: e5d0218d57d04c4bb1b3e30b0b64211a
+run_name: ambitious-koi-390
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753403995864
+status: 4
+tags: []
+user_id: steba

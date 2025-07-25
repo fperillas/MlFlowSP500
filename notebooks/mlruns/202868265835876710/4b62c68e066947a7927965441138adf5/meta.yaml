@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/steba/Desktop/Pepe/MlFlowDeploy/notebooks/mlruns/202868265835876710/4b62c68e066947a7927965441138adf5/artifacts
+end_time: 1753403945478
+entry_point_name: ''
+experiment_id: '202868265835876710'
+lifecycle_stage: active
+run_id: 4b62c68e066947a7927965441138adf5
+run_name: worried-mouse-417
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753403945333
+status: 4
+tags: []
+user_id: steba

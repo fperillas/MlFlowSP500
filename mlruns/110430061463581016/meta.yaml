@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/110430061463581016
+creation_time: 1753415227328
+experiment_id: '110430061463581016'
+last_update_time: 1753415227328
+lifecycle_stage: active
+name: sp500_forecast1

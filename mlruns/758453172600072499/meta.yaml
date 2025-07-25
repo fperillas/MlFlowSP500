@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/758453172600072499
+creation_time: 1753427872203
+experiment_id: '758453172600072499'
+last_update_time: 1753427872203
+lifecycle_stage: active
+name: sp500_LSTM

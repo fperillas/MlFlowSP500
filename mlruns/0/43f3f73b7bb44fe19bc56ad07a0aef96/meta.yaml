@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/43f3f73b7bb44fe19bc56ad07a0aef96/artifacts
+end_time: 1753406209591
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 43f3f73b7bb44fe19bc56ad07a0aef96
+run_name: gaudy-goat-93
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753406209525
+status: 4
+tags: []
+user_id: steba

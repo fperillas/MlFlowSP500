@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/882878246428576958/3199fb23aa8242f19040f47e29d46ea3/artifacts
+end_time: 1753421775662
+entry_point_name: ''
+experiment_id: '882878246428576958'
+lifecycle_stage: active
+run_id: 3199fb23aa8242f19040f47e29d46ea3
+run_name: invincible-sow-149
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753421771744
+status: 3
+tags: []
+user_id: steba

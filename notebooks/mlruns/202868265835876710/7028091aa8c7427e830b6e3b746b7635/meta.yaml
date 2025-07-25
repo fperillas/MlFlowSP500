@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/steba/Desktop/Pepe/MlFlowDeploy/notebooks/mlruns/202868265835876710/7028091aa8c7427e830b6e3b746b7635/artifacts
+end_time: 1753404352390
+entry_point_name: ''
+experiment_id: '202868265835876710'
+lifecycle_stage: active
+run_id: 7028091aa8c7427e830b6e3b746b7635
+run_name: sassy-mole-440
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753404352295
+status: 4
+tags: []
+user_id: steba

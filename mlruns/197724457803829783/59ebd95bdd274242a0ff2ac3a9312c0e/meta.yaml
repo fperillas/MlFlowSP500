@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/197724457803829783/59ebd95bdd274242a0ff2ac3a9312c0e/artifacts
+end_time: 1753428144754
+entry_point_name: ''
+experiment_id: '197724457803829783'
+lifecycle_stage: active
+run_id: 59ebd95bdd274242a0ff2ac3a9312c0e
+run_name: upset-stoat-379
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753428141359
+status: 3
+tags: []
+user_id: steba

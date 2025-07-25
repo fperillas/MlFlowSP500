@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/788bded3b899423386e192c54c8c7c47/artifacts
+end_time: 1753407097597
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 788bded3b899423386e192c54c8c7c47
+run_name: painted-rook-346
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753407089169
+status: 3
+tags: []
+user_id: steba

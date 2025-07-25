@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/a04f9b75e545433880da49d1e05529fd/artifacts
+end_time: 1753406871401
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a04f9b75e545433880da49d1e05529fd
+run_name: bold-hog-803
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753406871348
+status: 4
+tags: []
+user_id: steba

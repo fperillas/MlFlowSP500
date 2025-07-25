@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/488217719023193400/dabe53f2d2774cc58ef2f69ef6bed34c/artifacts
+end_time: 1753421781501
+entry_point_name: ''
+experiment_id: '488217719023193400'
+lifecycle_stage: active
+run_id: dabe53f2d2774cc58ef2f69ef6bed34c
+run_name: capable-crow-340
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753421778531
+status: 3
+tags: []
+user_id: steba

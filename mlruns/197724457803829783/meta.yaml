@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/197724457803829783
+creation_time: 1753427863617
+experiment_id: '197724457803829783'
+last_update_time: 1753427863617
+lifecycle_stage: active
+name: sp500_ARIMAX

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/758453172600072499/535855a774814fe5a70332693d97e7df/artifacts
+end_time: 1753428191396
+entry_point_name: ''
+experiment_id: '758453172600072499'
+lifecycle_stage: active
+run_id: 535855a774814fe5a70332693d97e7df
+run_name: skittish-boar-645
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1753428148294
+status: 3
+tags: []
+user_id: steba

@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/273173775435545792
+creation_time: 1753421775694
+experiment_id: '273173775435545792'
+last_update_time: 1753421775694
+lifecycle_stage: active
+name: sp500_LinearRegression_Middle
