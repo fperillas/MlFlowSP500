@@ -1,143 +1,119 @@
 from flask import Flask, request, jsonify, send_from_directory
-import mlflow.keras # Usa keras si guardaste con mlflow.keras.log_model
+import mlflow.keras
 import os
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+# Puedes importar joblib si guardaste tu scaler con joblib
+# import joblib 
 
 app = Flask(__name__, static_folder="static")
 
-# Ruta del modelo registrado en el MLflow Model Registry
-# Ahora que tu modelo SP500_LSTM_Predictor está registrado como la Versión 1
-model_uri = "models:/SP500_LSTM_Predictor/1" 
+# Configurar la URI de seguimiento de MLflow (útil si vas a hacer otras operaciones MLflow)
+# Aunque para cargar directamente con 'file://' no es estrictamente necesario,
+# es buena práctica si tu aplicación podría interactuar con el servidor de tracking de otra manera.
+mlflow.set_tracking_uri("http://localhost:5000") 
+
+# --- Ruta DIRECTA al modelo LSTM en el sistema de archivos ---
+# Necesitas REEMPLAZAR 'TU_EXPERIMENT_ID' y 'TU_RUN_ID' con los valores reales
+# que provienen del run que registró tu SP500_LSTM_Predictor.
+# Basado en la imagen de tu UI (wistful-bird-281), los valores son:
+# Experiment ID: 758453172600072499
+# Run ID:        4f8a12e100d74d51a0a94be5c5afc
+# Y el artifact_path que usaste para loggear el modelo es "model_lstm"
+
+# Asegúrate de que esta ruta ABSOLUTA sea correcta en tu sistema EC2
+# Por ejemplo, si app.py está en ~/MlFlowSP500/web/ y mlruns/ está dentro de 'web'
+# la ruta sería: /home/ubuntu/MlFlowSP500/web/mlruns/...
+# # Obtiene el directorio de app.py
+#model_relative_path = "mlruns/models/SP500_LSTM_Predictor/version-1"
+#model_uri = f"file://{os.path.join(base_path, model_relative_path)}"
+model_uri ="mlartifacts/758453172600072499/models/m-4e2b8579356e4247ae670b0a32d1dbad/artifacts"
+# Si el scaler también fue loggeado como un artefacto y quieres cargarlo de esa manera:
+#model_uri = "mlruns/758453172600072499/4f8a12e100d74d51a0a94be5c5afc/artifacts/scaler.pkl"
+#scaler_uri = f"file://{os.path.join(base_path, scaler_relative_path)}"
+
+
+model = None
+scaler = None
 
 try:
     model = mlflow.keras.load_model(model_uri)
-    print(f"Modelo cargado exitosamente desde: {model_uri}")
+    print(f"Modelo LSTM cargado exitosamente desde: {model_uri}")
+
+    # *** PUNTO CRÍTICO: El scaler. ***
+    # La forma ideal es que el scaler se haya guardado como un artefacto con el modelo
+    # o de forma independiente y que lo cargues aquí.
+    # Por ejemplo, si lo guardaste en el run del entrenamiento:
+    # scaler = joblib.load(mlflow.artifacts.download_artifacts(scaler_uri))
+    # Esto descargaría el artefacto si mlflow.set_tracking_uri() está configurado.
+
+    # PARA UNA DEMOSTRACIÓN RÁPIDA (SI NO GUARDASTE EL SCALER):
+    # Necesitas saber los valores min y max del dataset de entrenamiento que se usaron para ajustar el scaler.
+    # AJUSTA ESTOS VALORES A TUS DATOS REALES DE ENTRENAMIENTO de la columna 'SP500'.
+    # Si tu SP500 real iba, por ejemplo, de 1000 a 4000:
+    scaler_min = 1000.0 # <--- REEMPLAZA CON EL VALOR MÍNIMO REAL DE SP500 EN TUS DATOS DE ENTRENAMIENTO
+    scaler_max = 4000.0 # <--- REEMPLAZA CON EL VALOR MÁXIMO REAL DE SP500 EN TUS DATOS DE ENTRENAMIENTO
+    
+    # Creamos un scaler y lo "ajustamos" con los min/max conocidos.
+    # Esto es un workaround. La mejor práctica es guardar y cargar el scaler.
+    dummy_data_for_scaler = np.array([scaler_min, scaler_max]).reshape(-1, 1)
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    scaler.fit(dummy_data_for_scaler)
+
+    print(f"Scaler inicializado (min={scaler_min}, max={scaler_max}). (Verifica estos valores)")
+
 except Exception as e:
-    print(f"Error al cargar el modelo: {e}")
-    # Considera una lógica para manejar el error, por ejemplo, salir o poner el modelo en None
+    print(f"Error fatal al cargar el modelo o inicializar el scaler: {e}")
+    model = None
+    scaler = None
+    # No llamar a exit() aquí para permitir que el servidor Flask inicie y muestre 404 para predict.
+    # El usuario podrá ver que la app está corriendo pero la predicción fallará.
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    if model is None or scaler is None:
+        return jsonify({"error": "Modelo o scaler no cargados correctamente en el servidor. Revise los logs de inicio."}), 500
+
     data = request.json
     try:
-        # Aquí es donde necesitarás adaptar la entrada para tu modelo LSTM.
-        # Tu modelo LSTM fue entrenado con `look_back` pasos de tiempo y 1 feature.
-        # y espera una entrada con la forma (1, look_back, 1).
-        # Actualmente, tu código espera 'SP500_lag1' y 'SP500_lag2',
-        # que son adecuados para modelos como Regresión Lineal o ARIMAX,
-        # pero no para el LSTM univariado que entrenaste.
+        # La entrada para el modelo LSTM debe ser una secuencia de SP500, no solo lags.
+        # Asumimos que el cliente envía una lista de los últimos `look_back` valores de SP500.
+        # El `look_back` de tu modelo es 60 (asumido por el entrenamiento LSTM).
+        if "sp500_sequence" not in data:
+            return jsonify({"error": "Se requiere 'sp500_sequence' en el JSON para el modelo LSTM."}), 400
 
-        # Para tu LSTM, necesitarías recibir una secuencia de datos.
-        # Por simplicidad en este ejemplo, voy a asumir que recibes una lista de valores
-        # y que se escalarán de la misma manera que en el entrenamiento.
-        # *** ESTA PARTE ES CRÍTICA: La entrada de 'predict' debe coincidir con la forma y preprocesamiento de 'X_train' ***
-        
-        # Opciones para la entrada del LSTM:
-        # 1. El cliente envía directamente una secuencia de `look_back` valores.
-        # 2. El cliente envía `lag1` y `lag2`, pero tu modelo LSTM solo usa 'SP500' univariado.
-        #    Esto significa que tu modelo LSTM NO PUEDE usar `lag1` y `lag2` directamente
-        #    como fueron generados en el `prepare_data_ts`.
-        #    El LSTM fue entrenado para predecir el siguiente valor basado en `look_back` valores ANTERIORES
-        #    de la SERIE `SP500` ESCALADA.
+        raw_sequence = np.array(data["sp500_sequence"]).reshape(-1, 1)
 
-        # Adaptación necesaria:
-        # 1. Necesitas el 'scaler' que se usó durante el entrenamiento para escalar las entradas.
-        #    La forma más robusta es guardarlo junto con el modelo o como un artefacto separado.
-        #    Si no lo guardaste, tendrás que recrearlo con los mismos parámetros.
-        # 2. La entrada `data` de la solicitud JSON debe proporcionar una *secuencia* de datos,
-        #    no solo `lag1` y `lag2`.
+        # Verificar que la longitud de la secuencia sea la esperada por el modelo (look_back)
+        # Esto asume que el input_shape del modelo está correctamente definido (ej. (None, 60, 1))
+        # Si tu modelo tiene model.input_shape[1] = 60
+        expected_look_back = model.input_shape[1] 
+        if raw_sequence.shape[0] != expected_look_back:
+            return jsonify({
+                "error": f"La longitud de la secuencia ('sp500_sequence') debe ser {expected_look_back}, pero se recibió {raw_sequence.shape[0]}."
+            }), 400
 
-        # Para hacer que funcione CON TU CÓDIGO ACTUAL, asumiendo que el modelo de Flask
-        # es PARA LOS MODELOS LINEAL/ARIMAX/SARIMAX que sí usan lag1 y lag2:
-        # Si este app.py es exclusivamente para el LSTM, debes cambiar cómo recibes la data.
+        # Escalar la secuencia de entrada
+        scaled_sequence = scaler.transform(raw_sequence)
 
-        # Si quieres usar los lags (como en tu código original), tendrías que cargar
-        # un modelo que acepte esos lags como features de entrada.
-        # Por ejemplo, el modelo Linear Regression o ARIMAX.
+        # Reformar la entrada para el LSTM: [samples, time_steps, features] -> [1, look_back, 1]
+        input_for_prediction = scaled_sequence.reshape(1, expected_look_back, 1)
 
-        # Si este `app.py` es para el `SP500_LSTM_Predictor`, la lógica de `predict` DEBE CAMBIAR.
-        # Asumiendo que `model` es el SP500_LSTM_Predictor:
+        # Realizar la predicción
+        prediction_scaled = model.predict(input_for_prediction)
 
-        # --- Aclaración Importante sobre el `predict` de LSTM ---
-        # Tu modelo LSTM fue entrenado para tomar una secuencia de `look_back` valores
-        # de `SP500` escalados. No fue entrenado con `SP500_lag1` y `SP500_lag2` como features separados.
-        # Por lo tanto, `data['SP500_lag1']` y `data['SP500_lag2']` NO son las entradas correctas
-        # para este modelo LSTM.
+        # Invertir el escalado de la predicción para obtener el valor real
+        prediction_actual = scaler.inverse_transform(prediction_scaled)[0][0]
 
-        # Para el modelo LSTM, la función `predict` esperaría algo como:
-        # Una secuencia de `look_back` valores de SP500, escalados.
-        # Por ejemplo, si `look_back` es 60, esperarías 60 valores.
-        # Ejemplo: data = {"sp500_sequence": [v1, v2, ..., v60]}
+        return jsonify({"prediction": float(prediction_actual)})
 
-        # Dado que tu `predict` actual usa `lag1` y `lag2`, este `app.py` parece estar
-        # diseñado para el modelo de Regresión Lineal o ARIMAX/SARIMAX.
-        # Si quieres usar el LSTM, tendrías que modificar el `predict` así:
-
-        # (Descomenta y adapta esto si el app.py es para LSTM)
-        # from sklearn.preprocessing import MinMaxScaler
-        # # Necesitarías instanciar el mismo scaler que se usó en el entrenamiento.
-        # # Lo ideal es guardarlo con el modelo o como un artefacto separado.
-        # # Por ahora, como ejemplo, lo crearemos aquí (esto no es ideal para producción):
-        # # Asumiendo que sabes el rango de los datos originales
-        # # (por ejemplo, si SP500 siempre está entre 1000 y 5000)
-        # temp_scaler = MinMaxScaler(feature_range=(0, 1))
-        # # Necesitas 'fit' el scaler con los mismos datos de entrenamiento que usaste.
-        # # Una forma es cargar un dataset dummy o guardar y cargar el scaler.
-        # # Para una demostración rápida, si el scaler no ha sido guardado, esto es un placeholder:
-        # # Puedes cargarlo de un archivo si lo guardaste en el entrenamiento.
-        # # Ejemplo:
-        # # import joblib
-        # # scaler = joblib.load('path/to/your/scaler.pkl')
-
-        # if "sp500_sequence" not in data:
-        #     return jsonify({"error": "Missing 'sp500_sequence' in request data for LSTM model"}), 400
-        #
-        # raw_sequence = np.array(data["sp500_sequence"]).reshape(-1, 1)
-        #
-        # # Asegúrate de que el scaler esté ajustado correctamente
-        # # Esto es una simulación; en producción, el scaler debe ser persistido y cargado.
-        # # Una forma "hacky" para una prueba rápida si no guardaste el scaler:
-        # # Necesitas los min y max con los que se ajustó el scaler.
-        # # O pasarlos como parte de la solicitud JSON.
-        # # Por ejemplo, si entrenaste en datos de SP500 de 1000 a 4000:
-        # # Esto NO es robusto para producción, solo para probar si funciona.
-        # temp_scaler.fit(np.array([1000.0, 4000.0]).reshape(-1, 1)) # Reemplazar con tus min/max reales
-        #
-        # scaled_sequence = temp_scaler.transform(raw_sequence)
-        #
-        # # Reformar para la entrada del LSTM: [1, look_back, 1]
-        # if scaled_sequence.shape[0] != model.input_shape[1]: # look_back
-        #     return jsonify({"error": f"Expected sequence length of {model.input_shape[1]}, but got {scaled_sequence.shape[0]}"}), 400
-        #
-        # input_for_prediction = scaled_sequence.reshape(1, model.input_shape[1], 1)
-        #
-        # prediction_scaled = model.predict(input_for_prediction)
-        # prediction_actual = temp_scaler.inverse_transform(prediction_scaled)[0][0]
-        # return jsonify({"prediction": float(prediction_actual)})
-
-
-        # --- Si este app.py es para Linear Regression / ARIMAX / SARIMAX ---
-        # Si tu intención es que esta app sirva al modelo de Regresión Lineal, ARIMAX o SARIMAX
-        # (que sí usan `SP500_lag1` y `SP500_lag2`), entonces la lógica actual está bien para ellos.
-        # Solo asegúrate de cargar el modelo correcto.
-
-        lag1 = float(data['SP500_lag1'])
-        lag2 = float(data['SP500_lag2'])
-        
-        # Para Linear Regression, SARIMAX, ARIMAX que esperan 2 features:
-        prediction = model.predict([[lag1, lag2]]) # Esto asume que el modelo cargado acepta [lag1, lag2]
-
-        # Si el modelo cargado (model) es un modelo SARIMAX/ARIMAX, necesitará `.forecast()` y el exog.
-        # La línea `prediction = model.predict([[lag1, lag2]])` no funcionaría para SARIMAX/ARIMAX directamente.
-        # Para SARIMAX/ARIMAX, necesitarías:
-        # model.forecast(steps=1, exog=np.array([[lag1, lag2]]))
-        # Y asegurarte de que la data de entrada sea para el exógeno.
-
-        return jsonify({"prediction": float(prediction[0][0])})
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
 @app.route("/")
 def index():
+    # Asume que 'index.html' y 'style.css' están dentro de la carpeta 'static'.
+    # Ya corregimos esto previamente moviéndolos a 'static/'.
     return send_from_directory("static", "index.html")
 
 if __name__ == "__main__":

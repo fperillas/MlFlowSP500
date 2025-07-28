@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Predicción S&P 500</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h2>Modelo S&P 500</h2>
+
+    <label for="values">Valores (separados por comas):</label>
+    <textarea id="values" rows="6" placeholder="Ej: 4200.1, 4201.5, 4199.3, ..."></textarea>
+
+    <button id="predict-btn">Predecir</button>
+
+    <h3 id="result"></h3>
+  </div>
+
+  <label class="name">f.perillas@uniandes.edu.co</label>
+
+  <script>
+    // Botón de predicción que primero carga automáticamente los valores y luego predice
+    document.getElementById("predict-btn").addEventListener("click", async () => {
+      const textArea = document.getElementById("values");
+      let values = [];
+
+      // Si no hay valores ingresados manualmente, se cargan automáticamente
+      if (textArea.value.trim() === "") {
+        try {
+          const res = await fetch("/latest-values");
+          const data = await res.json();
+
+          if (res.ok && data.values && data.values.length === 60) {
+            values = data.values;
+            textArea.value = values.join(", ");
+          } else {
+            document.getElementById("result").textContent = "Error al cargar los valores desde el backend.";
+            return;
+          }
+        } catch (error) {
+          document.getElementById("result").textContent = "Error de conexión al cargar valores.";
+          return;
+        }
+      } else {
+        // Parsear valores del textarea
+        values = textArea.value.split(",").map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+        if (values.length !== 60) {
+          alert("Debes ingresar exactamente 60 valores numéricos.");
+          return;
+        }
+      }
+
+      // Enviar valores para predicción
+      const res = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sp500_sequence: values })
+      });
+
+      const data = await res.json();
+      const resultElement = document.getElementById("result");
+
+      if (res.ok) {
+        resultElement.textContent = `Valor predicho: ${data.prediction.toFixed(2)}`;
+        resultElement.style.color = "#00ff88";
+      } else {
+        resultElement.textContent = `Error: ${data.error}`;
+        resultElement.style.color = "#ff4444";
+      }
+    });
+  </script>
+</body>
+</html>
+
